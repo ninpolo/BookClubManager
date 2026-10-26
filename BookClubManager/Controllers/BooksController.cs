@@ -1,4 +1,5 @@
-﻿using BookClubManager.Services;
+﻿using BookClubManager.Data.Models;
+using BookClubManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookClubManager.Controllers;
@@ -17,5 +18,88 @@ public class BooksController : Controller
         var books = await bookMethods.GetAllAsync();
 
         return View(books);
+    }
+
+    public async Task<IActionResult> Details(int id)
+    {
+        var book = await bookMethods.GetByIdAsync(id);
+
+        if (book == null)
+        {
+            return NotFound();
+        }
+
+        return View(book);
+    }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(Book book)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(book);
+        }
+
+        await bookMethods.AddAsync(book);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        var book = await bookMethods.GetByIdAsync(id);
+
+        if (book == null)
+        {
+            return NotFound();
+        }
+
+        return View(book);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, Book book)
+    {
+        if (id != book.Id)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(book);
+        }
+
+        await bookMethods.UpdateAsync(book);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var book = await bookMethods.GetByIdAsync(id);
+
+        if (book == null)
+        {
+            return NotFound();
+        }
+
+        return View(book);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await bookMethods.DeleteAsync(id);
+
+        return RedirectToAction(nameof(Index));
     }
 }
