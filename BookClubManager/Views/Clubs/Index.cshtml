@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BookClubManager.Data.Models.Club>
+
+
+
+@{
+    ViewData["Title"] = "Book Clubs";
+}
+
+<h1>Book Clubs</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Club</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var club in Model)
+        {
+            <tr>
+                <td>@club.Name</td>
+                <td>@club.Description</td>
+                <td>
+                    <a asp-action="Details"
+                       asp-route-id="@club.Id"
+                       class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

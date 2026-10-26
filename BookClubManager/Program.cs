@@ -9,10 +9,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BookClubDb>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IBookMethods, BookMethods>();
 builder.Services.AddScoped<IClubMethods, ClubMethods>();
-
-
 var app = builder.Build();
+
 
 if (!app.Environment.IsDevelopment())
 {
