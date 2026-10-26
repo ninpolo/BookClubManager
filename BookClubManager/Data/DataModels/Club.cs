@@ -2,8 +2,13 @@
 
 namespace BookClubManager.Data.Models;
 
+
+
 public class Club
 {
+
+    public ICollection<Meeting> Meetings { get; set; } = new List<Meeting>();
+
     public int Id { get; set; }
 
     [Required]
